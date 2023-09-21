@@ -1,10 +1,12 @@
+// Import necessary packages and the 'Expense' model
 import 'package:flutter/material.dart';
-
 import 'package:expense_tracker/models/expense.dart';
 
+// Define the 'NewExpense' class, which is a StatefulWidget
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key, required this.onAddExpense});
 
+  // Callback function to handle adding an expense
   final void Function(Expense expense) onAddExpense;
 
   @override
@@ -13,12 +15,17 @@ class NewExpense extends StatefulWidget {
   }
 }
 
+// Define the private state class '_NewExpenseState' for 'NewExpense'
 class _NewExpenseState extends State<NewExpense> {
+  // Controllers for text input fields
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+
+  // Selected date and category
   DateTime? _selectedDate;
   Category _selectedCategory = Category.leisure;
 
+  // Function to present a date picker dialog
   void _presentDatePicker() async {
     final now = DateTime.now();
     final firstDate = DateTime(now.year - 1, now.month, now.day);
@@ -33,10 +40,12 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
+  // Function to submit expense data
   void _submitExpenseData() {
-    final enteredAmount = double.tryParse(_amountController
-        .text); // tryParse('Hello') => null, tryParse('1.12') => 1.12
+    final enteredAmount = double.tryParse(_amountController.text);
     final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
+
+    // Check for invalid input and show an alert dialog if necessary
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
         _selectedDate == null) {
@@ -45,7 +54,7 @@ class _NewExpenseState extends State<NewExpense> {
         builder: (ctx) => AlertDialog(
           title: const Text('Invalid input'),
           content: const Text(
-              'Please make sure a valid title, amount, date and category was entered.'),
+              'Please make sure a valid title, amount, date, and category were entered.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -59,6 +68,7 @@ class _NewExpenseState extends State<NewExpense> {
       return;
     }
 
+    // Call the 'onAddExpense' callback with the new expense data
     widget.onAddExpense(
       Expense(
         title: _titleController.text,
@@ -67,9 +77,12 @@ class _NewExpenseState extends State<NewExpense> {
         category: _selectedCategory,
       ),
     );
+
+    // Close the NewExpense overlay
     Navigator.pop(context);
   }
 
+  // Dispose of controllers when the widget is removed
   @override
   void dispose() {
     _titleController.dispose();
@@ -77,12 +90,14 @@ class _NewExpenseState extends State<NewExpense> {
     super.dispose();
   }
 
+  // Build method to create the widget hierarchy
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
+          // Text input field for expense title
           TextField(
             controller: _titleController,
             maxLength: 50,
@@ -92,6 +107,7 @@ class _NewExpenseState extends State<NewExpense> {
           ),
           Row(
             children: [
+              // Text input field for expense amount
               Expanded(
                 child: TextField(
                   controller: _amountController,
@@ -102,12 +118,13 @@ class _NewExpenseState extends State<NewExpense> {
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 16), // Add a small horizontal space
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    // Display the selected date or 'No date selected'
                     Text(
                       _selectedDate == null
                           ? 'No date selected'
@@ -124,20 +141,21 @@ class _NewExpenseState extends State<NewExpense> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 16), // Add a small vertical space
           Row(
             children: [
+              // Dropdown button for selecting expense category
               DropdownButton(
                 value: _selectedCategory,
                 items: Category.values
                     .map(
                       (category) => DropdownMenuItem(
-                        value: category,
-                        child: Text(
-                          category.name.toUpperCase(),
-                        ),
-                      ),
-                    )
+                    value: category,
+                    child: Text(
+                      category.name.toUpperCase(),
+                    ),
+                  ),
+                )
                     .toList(),
                 onChanged: (value) {
                   if (value == null) {
@@ -148,9 +166,10 @@ class _NewExpenseState extends State<NewExpense> {
                   });
                 },
               ),
-              const Spacer(),
+              const Spacer(), // Create a flexible space between elements
               TextButton(
                 onPressed: () {
+                  // Cancel adding a new expense and close the overlay
                   Navigator.pop(context);
                 },
                 child: const Text('Cancel'),
