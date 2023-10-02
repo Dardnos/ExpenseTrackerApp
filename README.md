@@ -75,3 +75,111 @@ The app's code is organized into folders and files as follows:
     - `main.dart` (Entry point of the application)
 
 The file and folder structure is designed to keep code organized, making it easier to maintain and extend the app's functionality.
+
+
+## Class Diagram
+```mermaid
+classDiagram
+class Expense
+Expense : +id String
+Expense : +title String
+Expense : +amount double
+Expense : +date DateTime
+Expense : +category Category
+Expense o-- Category
+Expense : +formattedDate String
+
+class ExpenseBucket
+ExpenseBucket : +category Category
+ExpenseBucket o-- Category
+ExpenseBucket : +expenses List~Expense~
+ExpenseBucket : +totalExpenses double
+
+class Category
+<<enumeration>> Category
+Category : +index int
+Category : +values$ List~Category~
+Category : +food$ Category
+Category o-- Category
+Category : +travel$ Category
+Category o-- Category
+Category : +leisure$ Category
+Category o-- Category
+Category : +work$ Category
+Category o-- Category
+Enum <|.. Category
+
+class Chart
+Chart : +expenses List~Expense~
+Chart : +buckets List~ExpenseBucket~
+Chart : +maxTotalExpense double
+Chart : +build() Widget
+StatelessWidget <|-- Chart
+
+class ChartBar
+ChartBar : +fill double
+ChartBar : +build() Widget
+StatelessWidget <|-- ChartBar
+
+class Expenses
+Expenses : +createState() State<Expenses>
+StatefulWidget <|-- Expenses
+
+class _ExpensesState
+_ExpensesState : -_registeredExpenses List~Expense~
+_ExpensesState : -_openAddExpenseOverlay() void
+_ExpensesState : -_addExpense() void
+_ExpensesState : -_removeExpense() void
+_ExpensesState : +build() Widget
+State <|-- _ExpensesState
+
+class ExpensesList
+ExpensesList : +expenses List~Expense~
+ExpensesList : +onRemoveExpense void FunctionExpense
+ExpensesList o-- void FunctionExpense
+ExpensesList : +build() Widget
+StatelessWidget <|-- ExpensesList
+
+class ExpenseItem
+ExpenseItem : +expense Expense
+ExpenseItem o-- Expense
+ExpenseItem : +build() Widget
+StatelessWidget <|-- ExpenseItem
+
+class ExpenseCategoriesPage
+ExpenseCategoriesPage : +onAddCategory void Functiondynamic
+ExpenseCategoriesPage o-- void Functiondynamic
+ExpenseCategoriesPage : +createState() State<ExpenseCategoriesPage>
+StatefulWidget <|-- ExpenseCategoriesPage
+
+class _ExpenseCategoriesPageState
+_ExpenseCategoriesPageState : -_categoryController TextEditingController
+_ExpenseCategoriesPageState o-- TextEditingController
+_ExpenseCategoriesPageState : -_selectedIcon dynamic
+_ExpenseCategoriesPageState : -_categories List~dynamic~
+_ExpenseCategoriesPageState : -_addCategory() void
+_ExpenseCategoriesPageState : -_deleteCategory() void
+_ExpenseCategoriesPageState : +build() Widget
+State <|-- _ExpenseCategoriesPageState
+
+class NewExpense
+NewExpense : +onAddExpense void FunctionExpense
+NewExpense o-- void FunctionExpense
+NewExpense : +createState() State<NewExpense>
+StatefulWidget <|-- NewExpense
+
+class _NewExpenseState
+_NewExpenseState : -_titleController TextEditingController
+_NewExpenseState o-- TextEditingController
+_NewExpenseState : -_amountController TextEditingController
+_NewExpenseState o-- TextEditingController
+_NewExpenseState : -_selectedDate DateTime?
+_NewExpenseState : -_selectedCategory Category
+_NewExpenseState o-- Category
+_NewExpenseState : -_presentDatePicker() void
+_NewExpenseState : -_submitExpenseData() void
+_NewExpenseState : +dispose() void
+_NewExpenseState : +build() Widget
+State <|-- _NewExpenseState
+
+```
