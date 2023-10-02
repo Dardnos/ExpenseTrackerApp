@@ -1,14 +1,14 @@
-// Import necessary packages and widgets
+/// Import necessary packages and widgets
 import 'package:flutter/material.dart';
 
-// Define the 'ChartBar' class, which is a StatelessWidget
+/// Define the 'ChartBar' class, which is a StatelessWidget
 class ChartBar extends StatelessWidget {
   const ChartBar({
     super.key,
     required this.fill,
   });
 
-  // Fill value for the chart bar (0 to 1)
+  /// Fill value for the chart bar (0 to 1)
   final double fill;
 
   @override
@@ -24,7 +24,7 @@ class ChartBar extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
-              // Set the color of the chart bar based on theme
+              /// Set the color of the chart bar based on theme
               color: isDarkMode
                   ? Theme.of(context).colorScheme.secondary
                   : Theme.of(context).colorScheme.primary.withOpacity(0.65),

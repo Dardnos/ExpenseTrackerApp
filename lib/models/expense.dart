@@ -1,18 +1,18 @@
-// Import necessary packages and libraries
+/// Import necessary packages and libraries
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart'; // For generating unique IDs
 import 'package:intl/intl.dart'; // For date formatting
 
-// Create a date formatter with the "month/day/year" format
+/// Create a date formatter with the "month/day/year" format
 final formatter = DateFormat.yMd();
 
-// Generate a UUID instance for generating unique IDs
+/// Generate a UUID instance for generating unique IDs
 const uuid = Uuid();
 
-// Define an enumeration 'Category' to represent expense categories
+/// Define an enumeration 'Category' to represent expense categories
 enum Category { food, travel, leisure, work }
 
-// Define icons for each expense category
+/// Define icons for each expense category
 const categoryIcons = {
   Category.food: Icons.lunch_dining,
   Category.travel: Icons.flight_takeoff,
@@ -20,7 +20,7 @@ const categoryIcons = {
   Category.work: Icons.work,
 };
 
-// Define the 'Expense' class to represent individual expenses
+/// Define the 'Expense' class to represent individual expenses
 class Expense {
   Expense({
     required this.title,
@@ -35,20 +35,20 @@ class Expense {
   final DateTime date; // Date of the expense
   final Category category; // Category of the expense
 
-  // Get the formatted date as a string
+  /// Get the formatted date as a string
   String get formattedDate {
     return formatter.format(date);
   }
 }
 
-// Define the 'ExpenseBucket' class to group expenses by category
+/// Define the 'ExpenseBucket' class to group expenses by category
 class ExpenseBucket {
   const ExpenseBucket({
     required this.category,
     required this.expenses,
   });
 
-  // Create an 'ExpenseBucket' for a specific category from a list of all expenses
+  /// Create an 'ExpenseBucket' for a specific category from a list of all expenses
   ExpenseBucket.forCategory(List<Expense> allExpenses, this.category)
       : expenses = allExpenses
       .where((expense) => expense.category == category)
@@ -57,7 +57,7 @@ class ExpenseBucket {
   final Category category; // Category of the expenses in this bucket
   final List<Expense> expenses; // List of expenses in this category
 
-  // Calculate the total expenses within this bucket
+  /// Calculate the total expenses within this bucket
   double get totalExpenses {
     double sum = 0;
 

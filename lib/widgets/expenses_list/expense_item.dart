@@ -1,19 +1,19 @@
-// Import necessary packages and the 'Expense' model
+/// Import necessary packages and the 'Expense' model
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
 
-// Define the 'ExpenseItem' class, which is a StatelessWidget
+/// Define the 'ExpenseItem' class, which is a StatelessWidget
 class ExpenseItem extends StatelessWidget {
-  // Constructor for 'ExpenseItem' that takes an 'expense' parameter
+  /// Constructor for 'ExpenseItem' that takes an 'expense' parameter
   const ExpenseItem(this.expense, {super.key});
 
-  // The 'expense' object that represents the expense data
+  /// The 'expense' object that represents the expense data
   final Expense expense;
 
-  // Build method to create the widget hierarchy
+  /// Build method to create the widget hierarchy
   @override
   Widget build(BuildContext context) {
-    // Create a Card widget to display the expense details
+    /// Create a Card widget to display the expense details
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(

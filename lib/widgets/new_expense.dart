@@ -1,12 +1,12 @@
-// Import necessary packages and the 'Expense' model
+/// Import necessary packages and the 'Expense' model
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
 
-// Define the 'NewExpense' class, which is a StatefulWidget
+/// Define the 'NewExpense' class, which is a StatefulWidget
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key, required this.onAddExpense});
 
-  // Callback function to handle adding an expense
+  /// Callback function to handle adding an expense
   final void Function(Expense expense) onAddExpense;
 
   @override
@@ -15,17 +15,17 @@ class NewExpense extends StatefulWidget {
   }
 }
 
-// Define the private state class '_NewExpenseState' for 'NewExpense'
+/// Define the private state class '_NewExpenseState' for 'NewExpense'
 class _NewExpenseState extends State<NewExpense> {
-  // Controllers for text input fields
+  /// Controllers for text input fields
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
 
-  // Selected date and category
+  /// Selected date and category
   DateTime? _selectedDate;
   Category _selectedCategory = Category.leisure;
 
-  // Function to present a date picker dialog
+  /// Function to present a date picker dialog
   void _presentDatePicker() async {
     final now = DateTime.now();
     final firstDate = DateTime(now.year - 1, now.month, now.day);
@@ -40,12 +40,12 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
-  // Function to submit expense data
+  /// Function to submit expense data
   void _submitExpenseData() {
     final enteredAmount = double.tryParse(_amountController.text);
     final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
 
-    // Check for invalid input and show an alert dialog if necessary
+    /// Check for invalid input and show an alert dialog if necessary
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
         _selectedDate == null) {
@@ -68,7 +68,7 @@ class _NewExpenseState extends State<NewExpense> {
       return;
     }
 
-    // Call the 'onAddExpense' callback with the new expense data
+    /// Call the 'onAddExpense' callback with the new expense data
     widget.onAddExpense(
       Expense(
         title: _titleController.text,
@@ -78,11 +78,11 @@ class _NewExpenseState extends State<NewExpense> {
       ),
     );
 
-    // Close the NewExpense overlay
+    /// Close the NewExpense overlay
     Navigator.pop(context);
   }
 
-  // Dispose of controllers when the widget is removed
+  /// Dispose of controllers when the widget is removed
   @override
   void dispose() {
     _titleController.dispose();
@@ -90,7 +90,7 @@ class _NewExpenseState extends State<NewExpense> {
     super.dispose();
   }
 
-  // Build method to create the widget hierarchy
+  /// Build method to create the widget hierarchy
   @override
   Widget build(BuildContext context) {
     return Padding(

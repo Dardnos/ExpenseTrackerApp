@@ -1,11 +1,11 @@
-// Import necessary packages and widgets
+/// Import necessary packages and widgets
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
 import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:expense_tracker/models/expense.dart';
 import 'package:expense_tracker/widgets/chart/chart.dart';
 
-// Define the 'Expenses' class, which is a StatefulWidget
+/// Define the 'Expenses' class, which is a StatefulWidget
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
 
@@ -14,9 +14,9 @@ class Expenses extends StatefulWidget {
     return _ExpensesState();
   }
 }
-// Define the private state class '_ExpensesState' for 'Expenses'
+/// Define the private state class '_ExpensesState' for 'Expenses'
 class _ExpensesState extends State<Expenses> {
-  // Initialize a list to store registered expenses
+  /// Initialize a list to store registered expenses
   final List<Expense> _registeredExpenses = [
     Expense(
       title: 'Flutter Course',
@@ -32,7 +32,7 @@ class _ExpensesState extends State<Expenses> {
     ),
   ];
 
-  // Function to open the add expense overlay
+  /// Function to open the add expense overlay
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -41,14 +41,14 @@ class _ExpensesState extends State<Expenses> {
     );
   }
 
-  // Function to add an expense to the list
+  /// Function to add an expense to the list
   void _addExpense(Expense expense) {
     setState(() {
       _registeredExpenses.add(expense);
     });
   }
 
-  // Function to remove an expense from the list
+  /// Function to remove an expense from the list
   void _removeExpense(Expense expense) {
     final expenseIndex = _registeredExpenses.indexOf(expense);
     setState(() {
@@ -71,7 +71,7 @@ class _ExpensesState extends State<Expenses> {
     );
   }
 
-  // Build method to create the widget hierarchy
+  /// Build method to create the widget hierarchy
   @override
   Widget build(BuildContext context) {
     // Initialize the main content as a message when there are no expenses
@@ -79,7 +79,7 @@ class _ExpensesState extends State<Expenses> {
       child: Text('No expenses found. Start adding some!'),
     );
 
-    // Update the main content when there are registered expenses
+    /// Update the main content when there are registered expenses
     if (_registeredExpenses.isNotEmpty) {
       mainContent = ExpensesList(
         expenses: _registeredExpenses,
@@ -87,7 +87,7 @@ class _ExpensesState extends State<Expenses> {
       );
     }
 
-    // Build and return the scaffold with the app bar and body
+    /// Build and return the scaffold with the app bar and body
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter ExpenseTracker'),

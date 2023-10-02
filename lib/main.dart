@@ -1,23 +1,23 @@
-// Import necessary packages and widgets
+/// Import necessary packages and widgets
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/widgets/expenses.dart';
 
-// Define the color scheme for the light theme
+/// Define the color scheme for the light theme
 var kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 96, 59, 181),
 );
 
-// Define the color scheme for the dark theme
+/// Define the color scheme for the dark theme
 var kDarkColorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
   seedColor: const Color.fromARGB(255, 5, 99, 125),
 );
 
-// The main function that runs the Flutter application
+/// The main function that runs the Flutter application
 void main() {
   runApp(
     MaterialApp(
-      // Define the dark theme configuration
+      /// Define the dark theme configuration
       darkTheme: ThemeData.dark().copyWith(
         useMaterial3: true,
         colorScheme: kDarkColorScheme,
@@ -35,7 +35,7 @@ void main() {
           ),
         ),
       ),
-      // Define the light theme configuration
+      /// Define the light theme configuration
       theme: ThemeData().copyWith(
         useMaterial3: true,
         colorScheme: kColorScheme,
@@ -63,7 +63,7 @@ void main() {
           ),
         ),
       ),
-      // Define the home widget as 'Expenses' class
+      /// Define the home widget as 'Expenses' class
       home: const Expenses(),
     ),
   );
