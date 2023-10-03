@@ -41,6 +41,30 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
+  void _removeCategory(CategoryItem category) {
+    final categoryIndex = categoryItems.indexOf(category);
+    if (categoryIndex > 0) {
+      setState(() {
+        categoryItems.remove(category);
+      });
+    }
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 3),
+          content: const Text('Category deleted.'),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              setState(() {
+                categoryItems.insert(categoryIndex, category);
+              });
+            },
+          ),
+        ),
+    );
+  }
+
   /// Function to submit expense data
   void _submitExpenseData() {
     final enteredAmount = double.tryParse(_amountController.text);
@@ -176,7 +200,7 @@ class _NewExpenseState extends State<NewExpense> {
                     context,
                     MaterialPageRoute(
                         builder:
-                            (context) => const CategoryPage()),
+                            (context) => CategoryPage(onRemoveCategory: _removeCategory))
                   );
                 },
               ),
@@ -188,11 +212,11 @@ class _NewExpenseState extends State<NewExpense> {
                 },
                 child: const Text('Cancel'),
               ),
-              ElevatedButton(
-                onPressed: _submitExpenseData,
-                child: const Text('Save Expense'),
-              ),
             ],
+          ),
+          ElevatedButton(
+            onPressed: _submitExpenseData,
+            child: const Text('Save Expense'),
           ),
         ],
       ),

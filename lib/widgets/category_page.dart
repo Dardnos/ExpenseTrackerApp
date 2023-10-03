@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 class CategoryPage extends StatefulWidget {
-  const CategoryPage({Key? key}) : super(key: key);
+  const CategoryPage({super.key, required this.onRemoveCategory});
+
+  final void Function(CategoryItem categoryItem) onRemoveCategory;
 
   @override
   State<CategoryPage> createState() {
@@ -25,13 +28,24 @@ List<CategoryItem> categoryItems = [
 ];
 
 class _CategoryPageState extends State<CategoryPage> {
-
   void _addNewCategory(String newCategory) {
     setState(() {
       categoryItems.add(
-        CategoryItem(newCategory, Icons.category),
+        CategoryItem(newCategory, _icon!.icon as IconData),
       );
     });
+  }
+
+  Icon? _icon;
+
+  _pickIcon() async {
+    IconData? icon = await FlutterIconPicker.showIconPicker(context,
+        iconPackModes: [IconPack.cupertino]);
+
+    _icon = Icon(icon);
+    setState(() {});
+
+    debugPrint('Picked Icon:  $icon');
   }
 
   @override
@@ -42,17 +56,23 @@ class _CategoryPageState extends State<CategoryPage> {
       ),
       body: ListView.builder(
         itemCount: categoryItems.length,
-        itemBuilder: (context, index) {
-          final categoryItem = categoryItems[index];
-          return ListTile(
-            leading: Icon(categoryItem.icon),
-            title: Text(categoryItem.category.toString().split('.').last), // Extract the enum value
+        itemBuilder: (context, index) => Dismissible(
+          key: ValueKey<CategoryItem>(categoryItems[index]),
+          child: ListTile(
+            leading: Icon(categoryItems[index].icon),
+            title:
+                Text(categoryItems[index].category.toString().split('.').last),
             onTap: () {
               // Handle category selection
               // You can navigate to a detailed view or perform any other action here
             },
-          );
-        },
+          ),
+          onDismissed: (direction) {
+            if (categoryItems[index] != categoryItems[0]) {
+              widget.onRemoveCategory(categoryItems[index]);
+            }
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -71,8 +91,13 @@ class _CategoryPageState extends State<CategoryPage> {
                 ),
                 actions: [
                   ElevatedButton(
+                    onPressed: _pickIcon,
+                    child: const Text('Open IconPicker'),
+                  ),
+                  ElevatedButton(
                     onPressed: () {
-                      if (newCategoryName.isNotEmpty) {
+                      if (newCategoryName.isNotEmpty &&
+                          newCategoryName.length < 17) {
                         // Add the new CategoryItem to the list
                         _addNewCategory(newCategoryName);
                         Navigator.of(context).pop(); // Close the dialog
