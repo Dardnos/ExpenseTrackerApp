@@ -1,8 +1,7 @@
 /// Import necessary packages and libraries
-import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart'; // For generating unique IDs
 import 'package:intl/intl.dart'; // For date formatting
-import 'package:expense_tracker/widgets/categories.dart';
+import 'package:expense_tracker/widgets/category_page.dart';
 
 /// Create a date formatter with the "month/day/year" format
 final formatter = DateFormat.yMd();
@@ -23,7 +22,7 @@ class Expense {
   final String title; // Title of the expense
   final double amount; // Amount spent
   final DateTime date; // Date of the expense
-  final Category category; // Category of the expense
+  final CategoryItem category; // Category of the expense
 
   /// Get the formatted date as a string
   String get formattedDate {
@@ -44,7 +43,7 @@ class ExpenseBucket {
       .where((expense) => expense.category == category)
       .toList();
 
-  final Category category; // Category of the expenses in this bucket
+  final CategoryItem category; // Category of the expenses in this bucket
   final List<Expense> expenses; // List of expenses in this category
 
   /// Calculate the total expenses within this bucket

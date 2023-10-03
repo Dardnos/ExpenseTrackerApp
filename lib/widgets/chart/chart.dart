@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/widgets/chart/chart_bar.dart';
 import 'package:expense_tracker/models/expense.dart';
-import 'package:expense_tracker/widgets/categories.dart';
+import 'package:expense_tracker/widgets/category_page.dart';
 
 // Define the 'Chart' class, which is a StatelessWidget
 class Chart extends StatelessWidget {
@@ -13,12 +13,11 @@ class Chart extends StatelessWidget {
 
   /// Get a list of expense buckets
   List<ExpenseBucket> get buckets {
-    return [
-      ExpenseBucket.forCategory(expenses, Category.food),
-      ExpenseBucket.forCategory(expenses, Category.leisure),
-      ExpenseBucket.forCategory(expenses, Category.travel),
-      ExpenseBucket.forCategory(expenses, Category.work),
-    ];
+    List<ExpenseBucket> buckets = [];
+    for (final category in categoryItems) {
+      buckets.add(ExpenseBucket.forCategory(expenses, category));
+    }
+    return buckets;
   }
 
   /// Calculate the maximum total expense for scaling
@@ -81,7 +80,7 @@ class Chart extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Icon(
-                    categoryIcons[bucket.category],
+                    bucket.category.icon,
                     color: isDarkMode
                         ? Theme.of(context).colorScheme.secondary
                         : Theme.of(context)

@@ -1,7 +1,6 @@
 /// Import necessary packages and the 'Expense' model
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
-import 'package:expense_tracker/widgets/categories.dart';
 
 /// Define the 'ExpenseItem' class, which is a StatelessWidget
 class ExpenseItem extends StatelessWidget {
@@ -40,7 +39,7 @@ class ExpenseItem extends StatelessWidget {
                 Row(
                   children: [
                     // Display the expense category icon
-                    Icon(categoryIcons[expense.category]),
+                    Icon(expense.category.icon),
                     const SizedBox(width: 8), // Add a small horizontal space
                     // Display the formatted date of the expense
                     Text(expense.formattedDate),

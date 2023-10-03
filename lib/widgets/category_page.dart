@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
 
-class EditCategoryPage extends StatefulWidget {
-  const EditCategoryPage({Key? key}) : super(key: key);
+class CategoryPage extends StatefulWidget {
+  const CategoryPage({Key? key}) : super(key: key);
 
   @override
-  State<EditCategoryPage> createState() {
-    return _EditCategoryPageState();
+  State<CategoryPage> createState() {
+    return _CategoryPageState();
   }
 }
-/// Define an enumeration 'Category' to represent expense categories
-enum Category { food, travel, leisure, work }
-
-/// Define icons for each expense category
-const categoryIcons = {
-  Category.food: Icons.lunch_dining,
-  Category.travel: Icons.flight_takeoff,
-  Category.leisure: Icons.movie,
-  Category.work: Icons.work,
-};
 
 /// Define a class to represent expense categories with icons
 class CategoryItem {
@@ -28,13 +18,13 @@ class CategoryItem {
 }
 
 List<CategoryItem> categoryItems = [
-  CategoryItem("food", Icons.lunch_dining),
-  CategoryItem("travel", Icons.flight_takeoff),
-  CategoryItem("leisure", Icons.movie),
-  CategoryItem("work", Icons.work),
+  CategoryItem("Food", Icons.lunch_dining),
+  CategoryItem("Travel", Icons.flight_takeoff),
+  CategoryItem("Leisure", Icons.movie),
+  CategoryItem("Work", Icons.work),
 ];
 
-class _EditCategoryPageState extends State<EditCategoryPage> {
+class _CategoryPageState extends State<CategoryPage> {
 
   void _addNewCategory(String newCategory) {
     setState(() {
@@ -84,7 +74,6 @@ class _EditCategoryPageState extends State<EditCategoryPage> {
                     onPressed: () {
                       if (newCategoryName.isNotEmpty) {
                         // Add the new CategoryItem to the list
-
                         _addNewCategory(newCategoryName);
                         Navigator.of(context).pop(); // Close the dialog
                       }
