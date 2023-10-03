@@ -2,23 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart'; // For generating unique IDs
 import 'package:intl/intl.dart'; // For date formatting
+import 'package:expense_tracker/widgets/categories.dart';
 
 /// Create a date formatter with the "month/day/year" format
 final formatter = DateFormat.yMd();
 
 /// Generate a UUID instance for generating unique IDs
 const uuid = Uuid();
-
-/// Define an enumeration 'Category' to represent expense categories
-enum Category { food, travel, leisure, work }
-
-/// Define icons for each expense category
-const categoryIcons = {
-  Category.food: Icons.lunch_dining,
-  Category.travel: Icons.flight_takeoff,
-  Category.leisure: Icons.movie,
-  Category.work: Icons.work,
-};
 
 /// Define the 'Expense' class to represent individual expenses
 class Expense {

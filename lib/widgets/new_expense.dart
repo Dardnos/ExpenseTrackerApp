@@ -1,6 +1,7 @@
 /// Import necessary packages and the 'Expense' model
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/widgets/categories.dart';
 
 /// Define the 'NewExpense' class, which is a StatefulWidget
 class NewExpense extends StatefulWidget {
@@ -164,6 +165,15 @@ class _NewExpenseState extends State<NewExpense> {
                   setState(() {
                     _selectedCategory = value;
                   });
+                },
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.edit,
+                ),
+              onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditCategoryPage()),
+                  );
                 },
               ),
               const Spacer(), // Create a flexible space between elements

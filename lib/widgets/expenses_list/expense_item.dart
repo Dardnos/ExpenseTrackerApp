@@ -1,6 +1,7 @@
 /// Import necessary packages and the 'Expense' model
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/widgets/categories.dart';
 
 /// Define the 'ExpenseItem' class, which is a StatelessWidget
 class ExpenseItem extends StatelessWidget {
