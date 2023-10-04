@@ -1,9 +1,12 @@
+/// Import necessary packages and libraries
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
+/// Define the 'CategoryPage' class as a StatefulWidget
 class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key, required this.onRemoveCategory});
 
+  /// Callback function to handle category removal
   final void Function(CategoryItem categoryItem) onRemoveCategory;
 
   @override
@@ -12,7 +15,7 @@ class CategoryPage extends StatefulWidget {
   }
 }
 
-/// Define a class to represent expense categories with icons
+/// Define the 'CategoryItem' class to represent a category
 class CategoryItem {
   final String category;
   final IconData icon;
@@ -20,6 +23,7 @@ class CategoryItem {
   CategoryItem(this.category, this.icon);
 }
 
+/// Initialize a list of 'CategoryItem' objects
 List<CategoryItem> categoryItems = [
   CategoryItem("Food", Icons.lunch_dining),
   CategoryItem("Travel", Icons.flight_takeoff),
@@ -27,7 +31,9 @@ List<CategoryItem> categoryItems = [
   CategoryItem("Work", Icons.work),
 ];
 
+/// Define the state class for 'CategoryPage'
 class _CategoryPageState extends State<CategoryPage> {
+  /// Function to add a new category to the list
   void _addNewCategory(String newCategory) {
     setState(() {
       categoryItems.add(
@@ -38,6 +44,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
   Icon? _icon;
 
+  /// Function to open the icon picker dialog
   _pickIcon() async {
     IconData? icon = await FlutterIconPicker.showIconPicker(context,
         iconPackModes: [IconPack.cupertino]);
@@ -60,11 +67,9 @@ class _CategoryPageState extends State<CategoryPage> {
           key: ValueKey<CategoryItem>(categoryItems[index]),
           child: ListTile(
             leading: Icon(categoryItems[index].icon),
-            title:
-                Text(categoryItems[index].category.toString().split('.').last),
+            title: Text(categoryItems[index].category.toString().split('.').last),
             onTap: () {
-              // Handle category selection
-              // You can navigate to a detailed view or perform any other action here
+              // Can add a function to edit the category name if I want later
             },
           ),
           onDismissed: (direction) {
