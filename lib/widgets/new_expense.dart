@@ -1,6 +1,7 @@
 /// Import necessary packages and the 'Expense' model
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/widgets/category_page.dart';
 
 /// Define the 'NewExpense' class, which is a StatefulWidget
 class NewExpense extends StatefulWidget {
@@ -23,7 +24,7 @@ class _NewExpenseState extends State<NewExpense> {
 
   /// Selected date and category
   DateTime? _selectedDate;
-  Category _selectedCategory = Category.leisure;
+  CategoryItem _selectedCategory = categoryItems[0];
 
   /// Function to present a date picker dialog
   void _presentDatePicker() async {
@@ -38,6 +39,30 @@ class _NewExpenseState extends State<NewExpense> {
     setState(() {
       _selectedDate = pickedDate;
     });
+  }
+
+  void _removeCategory(CategoryItem category) {
+    final categoryIndex = categoryItems.indexOf(category);
+    if (categoryIndex > 0) {
+      setState(() {
+        categoryItems.remove(category);
+      });
+    }
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 3),
+          content: const Text('Category deleted.'),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              setState(() {
+                categoryItems.insert(categoryIndex, category);
+              });
+            },
+          ),
+        ),
+    );
   }
 
   /// Function to submit expense data
@@ -147,12 +172,12 @@ class _NewExpenseState extends State<NewExpense> {
               // Dropdown button for selecting expense category
               DropdownButton(
                 value: _selectedCategory,
-                items: Category.values
+                items: categoryItems
                     .map(
                       (category) => DropdownMenuItem(
                     value: category,
                     child: Text(
-                      category.name.toUpperCase(),
+                      category.category
                     ),
                   ),
                 )
@@ -166,6 +191,19 @@ class _NewExpenseState extends State<NewExpense> {
                   });
                 },
               ),
+              IconButton(
+                icon: const Icon(
+                  Icons.edit,
+                ),
+              onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder:
+                            (context) => CategoryPage(onRemoveCategory: _removeCategory))
+                  );
+                },
+              ),
               const Spacer(), // Create a flexible space between elements
               TextButton(
                 onPressed: () {
@@ -174,11 +212,11 @@ class _NewExpenseState extends State<NewExpense> {
                 },
                 child: const Text('Cancel'),
               ),
-              ElevatedButton(
-                onPressed: _submitExpenseData,
-                child: const Text('Save Expense'),
-              ),
             ],
+          ),
+          ElevatedButton(
+            onPressed: _submitExpenseData,
+            child: const Text('Save Expense'),
           ),
         ],
       ),

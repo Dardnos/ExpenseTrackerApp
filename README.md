@@ -12,8 +12,8 @@ The Expense Tracker app is designed using the Flutter framework, which follows a
 
 ### 2. Data Models
 - The app defines a data model called `Expense` to represent individual expenses.
-- Expenses are categorized into predefined categories, and each expense has a unique identifier (`id`).
-- Expenses are grouped into categories using the `Category` enumeration.
+- Expenses are categorized into categories, and each expense has a unique identifier (`id`).
+- Expenses are grouped into categories using the `categoryItems` list.
 
 ### 3. Business Logic
 - Business logic for adding, removing, and managing expenses is implemented within the widgets.
@@ -51,9 +51,15 @@ The Expense Tracker app has the following specifications:
 
 - **Themes**: The app supports both light and dark themes, with color schemes tailored for each theme.
 - **Date Formatting**: Dates are displayed in the "month/day/year" format.
-- **Expense Categories**: Expenses can belong to one of four predefined categories: Food, Travel, Leisure, and Work.
+- **Expense Categories**: Expenses can belong to one category. Default categories: Food, Travel, Leisure, and Work.
+- **Category Management**: The app allows users to add, remove, and manage expense categories.
+- **Category Icons**: Each category has a icon associated with it.
+- **Expense Addition**: The app allows users to add new expenses.
+- **Expense Input**: The app allows users to input expense titles, amounts, dates, and categories.
+- **Expense Removal**: The app allows users to remove existing expenses.
+- **Undo Feature**: When an expense or category is deleted, the app allows the user to undo the deletion within a certain time frame.
+- **Expense List**: The app displays a list of expenses, with each expense showing its title, amount, date, and category.
 - **Expense Chart**: The app provides a chart that visually represents expenses by category using colored bars.
-- **Undo Feature**: When an expense is deleted, the app allows the user to undo the deletion within a certain time frame.
 - **Validation**: Expense input is validated to ensure that titles, amounts, dates, and categories are provided correctly.
 
 ## File and Folder Structure
@@ -70,6 +76,7 @@ The app's code is organized into folders and files as follows:
         - `expenses_list/` (Subfolder for Expenses List-related Widgets)
             - `expense_item.dart` (Definition of the `ExpenseItem` widget)
             - `expenses_list.dart` (Definition of the `ExpensesList` widget)
+        - `category_page.dart` (Definition of the `CategoryPage` widget)
         - `expenses.dart` (Definition of the main `Expenses` widget)
         - `new_expense.dart` (Definition of the `NewExpense` widget)
     - `main.dart` (Entry point of the application)
@@ -80,106 +87,110 @@ The file and folder structure is designed to keep code organized, making it easi
 ## Class Diagram
 ```mermaid
 classDiagram
-class Expense
-Expense : +id String
-Expense : +title String
-Expense : +amount double
-Expense : +date DateTime
-Expense : +category Category
-Expense o-- Category
-Expense : +formattedDate String
+    class Expense
+    Expense : +id String
+    Expense : +title String
+    Expense : +amount double
+    Expense : +date DateTime
+    Expense : +category CategoryItem
+    Expense o-- CategoryItem
+    Expense : +formattedDate String
 
-class ExpenseBucket
-ExpenseBucket : +category Category
-ExpenseBucket o-- Category
-ExpenseBucket : +expenses List~Expense~
-ExpenseBucket : +totalExpenses double
 
-class Category
-<<enumeration>> Category
-Category : +index int
-Category : +values$ List~Category~
-Category : +food$ Category
-Category o-- Category
-Category : +travel$ Category
-Category o-- Category
-Category : +leisure$ Category
-Category o-- Category
-Category : +work$ Category
-Category o-- Category
-Enum <|.. Category
+    class ExpenseBucket
+    ExpenseBucket : +category CategoryItem
+    ExpenseBucket o-- CategoryItem
+    ExpenseBucket : +expenses List~Expense~
+    ExpenseBucket : +totalExpenses double
 
-class Chart
-Chart : +expenses List~Expense~
-Chart : +buckets List~ExpenseBucket~
-Chart : +maxTotalExpense double
-Chart : +build() Widget
-StatelessWidget <|-- Chart
+    class CategoryPage
+    CategoryPage : +onRemoveCategory void FunctionCategoryItem
+    CategoryPage o-- void FunctionCategoryItem
+    CategoryPage : +createState() State<CategoryPage>
+    StatefulWidget <|-- CategoryPage
 
-class ChartBar
-ChartBar : +fill double
-ChartBar : +build() Widget
-StatelessWidget <|-- ChartBar
+    class CategoryItem
+    CategoryItem : +category String
+    CategoryItem : +icon IconData
+    CategoryItem o-- IconData
 
-class Expenses
-Expenses : +createState() State<Expenses>
-StatefulWidget <|-- Expenses
+    class _CategoryPageState
+    _CategoryPageState : -_icon Icon?
+    _CategoryPageState o-- Icon
+    _CategoryPageState : -_addNewCategory() void
+    _CategoryPageState : -_pickIcon() dynamic
+    _CategoryPageState : +build() Widget
+    State <|-- _CategoryPageState
 
-class _ExpensesState
-_ExpensesState : -_registeredExpenses List~Expense~
-_ExpensesState : -_openAddExpenseOverlay() void
-_ExpensesState : -_addExpense() void
-_ExpensesState : -_removeExpense() void
-_ExpensesState : +build() Widget
-State <|-- _ExpensesState
+    class Chart
+    Chart : +expenses List~Expense~
+    Chart : +buckets List~ExpenseBucket~
+    Chart : +maxTotalExpense double
+    Chart : +build() Widget
+    StatelessWidget <|-- Chart
 
-class ExpensesList
-ExpensesList : +expenses List~Expense~
-ExpensesList : +onRemoveExpense void FunctionExpense
-ExpensesList o-- void FunctionExpense
-ExpensesList : +build() Widget
-StatelessWidget <|-- ExpensesList
+    class ChartBar
+    ChartBar : +fill double
+    ChartBar : +build() Widget
+    StatelessWidget <|-- ChartBar
 
-class ExpenseItem
-ExpenseItem : +expense Expense
-ExpenseItem o-- Expense
-ExpenseItem : +build() Widget
-StatelessWidget <|-- ExpenseItem
+    class Expenses
+    Expenses : +createState() State<Expenses>
+    StatefulWidget <|-- Expenses
 
-class ExpenseCategoriesPage
-ExpenseCategoriesPage : +onAddCategory void Functiondynamic
-ExpenseCategoriesPage o-- void Functiondynamic
-ExpenseCategoriesPage : +createState() State<ExpenseCategoriesPage>
-StatefulWidget <|-- ExpenseCategoriesPage
+    class _ExpensesState
+    _ExpensesState : -_registeredExpenses List~Expense~
+    _ExpensesState : -_openAddExpenseOverlay() void
+    _ExpensesState : -_addExpense() void
+    _ExpensesState : -_removeExpense() void
+    _ExpensesState : +build() Widget
+    State <|-- _ExpensesState
 
-class _ExpenseCategoriesPageState
-_ExpenseCategoriesPageState : -_categoryController TextEditingController
-_ExpenseCategoriesPageState o-- TextEditingController
-_ExpenseCategoriesPageState : -_selectedIcon dynamic
-_ExpenseCategoriesPageState : -_categories List~dynamic~
-_ExpenseCategoriesPageState : -_addCategory() void
-_ExpenseCategoriesPageState : -_deleteCategory() void
-_ExpenseCategoriesPageState : +build() Widget
-State <|-- _ExpenseCategoriesPageState
+    class ExpensesList
+    ExpensesList : +expenses List~Expense~
+    ExpensesList : +onRemoveExpense void FunctionExpense
+    ExpensesList o-- void FunctionExpense
+    ExpensesList : +build() Widget
+    StatelessWidget <|-- ExpensesList
 
-class NewExpense
-NewExpense : +onAddExpense void FunctionExpense
-NewExpense o-- void FunctionExpense
-NewExpense : +createState() State<NewExpense>
-StatefulWidget <|-- NewExpense
+    class ExpenseItem
+    ExpenseItem : +expense Expense
+    ExpenseItem o-- Expense
+    ExpenseItem : +build() Widget
+    StatelessWidget <|-- ExpenseItem
 
-class _NewExpenseState
-_NewExpenseState : -_titleController TextEditingController
-_NewExpenseState o-- TextEditingController
-_NewExpenseState : -_amountController TextEditingController
-_NewExpenseState o-- TextEditingController
-_NewExpenseState : -_selectedDate DateTime?
-_NewExpenseState : -_selectedCategory Category
-_NewExpenseState o-- Category
-_NewExpenseState : -_presentDatePicker() void
-_NewExpenseState : -_submitExpenseData() void
-_NewExpenseState : +dispose() void
-_NewExpenseState : +build() Widget
-State <|-- _NewExpenseState
+    class NewExpense
+    NewExpense : +onAddExpense void FunctionExpense
+    NewExpense o-- void FunctionExpense
+    NewExpense : +createState() State<NewExpense>
+    StatefulWidget <|-- NewExpense
 
+    class _NewExpenseState
+    _NewExpenseState : -_titleController TextEditingController
+    _NewExpenseState o-- TextEditingController
+    _NewExpenseState : -_amountController TextEditingController
+    _NewExpenseState o-- TextEditingController
+    _NewExpenseState : -_selectedDate DateTime?
+    _NewExpenseState : -_selectedCategory CategoryItem
+    _NewExpenseState o-- CategoryItem
+    _NewExpenseState : -_presentDatePicker() void
+    _NewExpenseState : -_removeCategory() void
+    _NewExpenseState : -_submitExpenseData() void
+    _NewExpenseState : +dispose() void
+    _NewExpenseState : +build() Widget
+    State <|-- _NewExpenseState
 ```
+
+
+
+
+
+## Screenshots
+
+The following screenshots show the app's user interface:
+
+![Main Page](doc/screenshots/mainPage.png)
+![New Expense](doc/screenshots/newExpense.png)
+![Categories](doc/screenshots/categories.png)
+![Add Category](doc/screenshots/addCategory.png)
+![Icon Chooser](doc/screenshots/iconPicker.png)
