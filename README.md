@@ -181,7 +181,14 @@ classDiagram
     State <|-- _NewExpenseState
 ```
 
+## Peer Review
 
+Unfortunately, I was not able to get in touch with my peer reviewer.
+
+But on another note, I had help from another student called Mathias J. Kirkeby, who helped me with the `CategoryItem` class. He helped me understand how to connect the `CategoryItem` class to the `Expense` class. 
+He also helped me understand how to use the `Navigator` class to navigate between pages.
+
+We help each other a lot.
 
 
 
